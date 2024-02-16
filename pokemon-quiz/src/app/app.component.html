@@ -1,0 +1,9 @@
+<main class="main_container">
+  <span *ngIf="!isLoggedIn">
+    <app-login></app-login>
+  </span>
+  <span *ngIf="isLoggedIn">
+    <app-quiz></app-quiz>
+  </span>
+  <app-ranking></app-ranking>
+</main>

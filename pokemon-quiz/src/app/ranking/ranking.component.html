@@ -1,0 +1,5 @@
+<div *ngIf="ranking">
+    <div *ngFor="let item of ranking; let i = index">
+      <p>{{ i + 1 }} - {{ item.Nickname }}: {{ item.Score }} / {{ item.Date | date }}</p>
+    </div>
+</div>

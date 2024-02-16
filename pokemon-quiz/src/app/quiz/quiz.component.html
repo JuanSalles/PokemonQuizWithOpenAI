@@ -1,0 +1,10 @@
+<div *ngIf="question">
+        <div class="question-box">
+            <p>{{ question.Text }}</p>
+            <div *ngFor="let option of question.Answers">
+                <input type="radio" id="{{ option }}" name="option" [(ngModel)]="selectedOption" [value]="option">
+                <label for="{{ option }}">{{ option }}</label><br>
+            </div>
+            <button (click)="confirm()">Confirmar</button>
+        </div>
+</div>
