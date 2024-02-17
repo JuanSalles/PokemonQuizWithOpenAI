@@ -20,6 +20,11 @@ export class AppController {
     private readonly authService: AuthService,
   ) {}
 
+  @Get()
+  getHello(): string {
+    return "Heelo, I'm the quiz API!";
+  }
+
   @Get('question')
   @UseGuards(AuthGuard('jwt'))
   async generate(
