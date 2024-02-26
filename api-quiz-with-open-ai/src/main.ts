@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: ['https://quizdev.vercel.app'],
+    origin: ['https://quizdev.vercel.app', 'http://localhost:4200'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Accept',
     credentials: true,
