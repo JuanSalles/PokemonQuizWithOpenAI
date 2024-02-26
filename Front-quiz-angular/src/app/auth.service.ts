@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
+import { environment } from 'src/env/enviroment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,10 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(nickname: string): Observable<Boolean>{
-    return this.http.post('/api/login', { nickname })
+    return this.http.post(`${environment['API_URL']}/login`, { nickname })
       .pipe(
         tap((response: any) => {
-          localStorage.setItem('PokeQuizToken', response.token);
+          localStorage.setItem('quizToken', response.token);
         }),
         // Retorna true após armazenar o token
         map(() => true),
@@ -30,7 +31,7 @@ export class AuthService {
   }
 
   validateToken(): void {
-    const token = localStorage.getItem('PokeQuizToken');
+    const token = localStorage.getItem('quizToken');
     if (token) {
       this.http.post('/api/validate-token', { token })
       .pipe(
@@ -38,7 +39,7 @@ export class AuthService {
           this.loggedIn.next(true);
         }),
         catchError(() => {
-          localStorage.removeItem('PokeQuizToken');
+          localStorage.removeItem('quizToken');
           this.loggedIn.next(false);
           return of(null);
         })
