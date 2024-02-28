@@ -8,8 +8,14 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent {
   nickname: string = "";
-
+  isLoading: boolean = true;
   constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.isLoading.subscribe(isLoading => {
+      this.isLoading = isLoading;
+    });
+  }
 
   login(): void {
     this.authService.login(this.nickname).subscribe(isLoggedIn => {
@@ -19,6 +25,6 @@ export class LoginComponent {
         console.log("Falha no login");
       }
     });
-    console.log("entrou no login")
+    console.log("Fazendo login...")
   }
 }

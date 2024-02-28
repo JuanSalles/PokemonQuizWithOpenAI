@@ -11,20 +11,45 @@ export class QuizComponent {
 
   question!: Question;
 
-  selectedOption: string = '';
+  selectedOption: number = 1;
+
+  language:string = '';
+
+  isLoading: boolean = false;
+
+  score: number = 0;
+
+  endGame: boolean = false;
 
   constructor(private quizService: QuizService) { 
 
   }
 
   ngOnInit(): void {
-    this.quizService.getQuestion().subscribe(question => {
+    // this.quizService.getQuestion().subscribe(question => {
+    //   this.question = question;
+    // });
+  }
+
+  getQuestion(): void {
+    this.isLoading = true;
+    this.quizService.getQuestion(this.language).subscribe(question => {
       this.question = question;
+      this.isLoading = false;
+
     });
   }
 
   confirm(): void {
-    // Aqui você pode fazer algo com a opção selecionada
-    console.log(this.selectedOption);
-  }
+   
+    console.log("Sua resposta foi:", this.question.options[this.selectedOption - 1]);
+    this.quizService.postAnswer(this.selectedOption).subscribe(response => {
+      this.score = response.score;
+      if(response.isFinished){
+        this.endGame = true;
+        return;
+      }
+      this.getQuestion();
+    })
+  } 
 }

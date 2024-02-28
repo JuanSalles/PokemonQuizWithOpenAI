@@ -1,7 +1,6 @@
 type Question = {
-    Id: number;
-    Text: string;
-    Answers: string[];
+    question: string;
+    options: string[];
 } 
 
 type Score = {
