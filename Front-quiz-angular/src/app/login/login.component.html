@@ -7,4 +7,8 @@
     </label>
     <button type="submit">Submit</button>
   </form>
+  <mat-form-field appearance="fill" (ngSubmit)="login()">
+    <mat-label>Nickname</mat-label>
+    <input matInput [(ngModel)]="nickname">
+  </mat-form-field>
 </span>
