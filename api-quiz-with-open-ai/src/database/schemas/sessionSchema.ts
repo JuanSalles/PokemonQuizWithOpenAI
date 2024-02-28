@@ -4,7 +4,7 @@ export const SessionSchema = new Schema({
   nickname: String,
   tempScore: Number,
   date: Date,
-  isFished: Boolean,
+  isFinished: Boolean,
   answers: [Number],
   questions: [{ type: Types.ObjectId, ref: 'Questions' }],
 });

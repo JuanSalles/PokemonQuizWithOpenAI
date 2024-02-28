@@ -45,6 +45,12 @@ export class AppController {
     return res.status(200).json(token);
   }
 
+  @Get('validate')
+  @UseGuards(AuthGuard('jwt'))
+  async validate(@Response() res) {
+    return res.status(200).json({ message: 'Token is valid' });
+  }
+
   @Post('answer')
   @UseGuards(AuthGuard('jwt'))
   async saveAnswer(

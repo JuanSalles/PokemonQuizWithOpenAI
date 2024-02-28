@@ -24,7 +24,7 @@ export class AppService {
     const session = await this.sessionModel
       .findOne({
         nickname: nickname,
-        isFished: false,
+        isFinished: false,
       })
       .populate('questions')
       .exec();
@@ -39,7 +39,7 @@ export class AppService {
     if (session) {
       if (session.questions.length < 10) {
         console.log('Faltam questões na sessão, sessão finalizada');
-        session.isFished = true;
+        session.isFinished = true;
         await session.save();
         return this.startQuiz(nickname, about);
       }
@@ -51,7 +51,7 @@ export class AppService {
       nickname,
       tempScore: 0,
       date: new Date(),
-      isFished: false,
+      isFinished: false,
       answers: [],
       questions: [],
     });
@@ -158,11 +158,7 @@ export class AppService {
       await model.save();
     });
   }
-  async saveAnswer(
-    answer: number,
-    id: string,
-    nickname: string,
-  ): Promise<string> {
+  async saveAnswer(answer: number, id: string, nickname: string): Promise<any> {
     const session = await this.isThereSession(nickname);
 
     if (!session) throw new Error('Sessão não encontrada');
@@ -176,11 +172,15 @@ export class AppService {
     session.answers.push(answer);
 
     if (session.answers.length === 10) {
-      session.isFished = true;
+      session.isFinished = true;
       await this.saveRanking(nickname, session.tempScore);
     }
     await session.save();
-    return session.tempScore.toString();
+    return {
+      score: session.tempScore.toString(),
+      isCorrect: isCorrect,
+      isFinished: session.isFinished,
+    };
   }
 
   async getRanking(): Promise<any> {
