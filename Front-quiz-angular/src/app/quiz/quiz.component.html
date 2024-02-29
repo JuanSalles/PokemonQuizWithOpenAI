@@ -1,34 +1,29 @@
-<div *ngIf="!question">
-    <img src="../../assets/loading.gif" alt="imagem de loading" *ngIf="isLoading">
-    <form (ngSubmit)="getQuestion()" *ngIf="!isLoading">
-        <label>
-          Select the language:
-          <select [(ngModel)]="language" name="language" required>
-            <option value="CSharp">C#</option>
-            <option value="Java">Java</option>
-            <option value="JavaScript">JavaScript</option>
-            <option value="Python">Python</option>
-            <option value="Ruby On Rails">Ruby</option>
-            <option value="Golang">Golang</option>
-          </select>
-        </label>
-        <button type="submit">Submit</button>
-      </form>
-</div>
-<div *ngIf="question && !endGame">
-        <div>
-            <h3>Score: {{score}}</h3>
-        </div>
-        <div class="question-box">
-            <p>{{ question.question }}</p>
-            <div *ngFor="let option of question.options; let i = index">
-                <input type="radio" id="{{ option }}" name="option" [(ngModel)]="selectedOption" [value]="i+1">
-                <label for="{{ option }}">{{ option }}</label><br>
-            </div>
-            <button (click)="confirm()">Confirmar</button>
-        </div>
-</div>
-<div *ngIf="endGame">
-    Your final score is: {{score}}, about {{language}}!
-</div>
 
+<mat-card [@resize]="boxSizing">
+  <mat-card-header>
+    <mat-card-title *ngIf="!question">Select Language:</mat-card-title>
+    <mat-card-title *ngIf="question && !endGame">Score {{score}}:</mat-card-title>
+    <mat-card-subtitle *ngIf="endGame">
+      Your final score is: {{score}}!
+    </mat-card-subtitle>
+    
+  </mat-card-header>
+  <mat-card-content *ngIf="!question">
+    <div class="languages_container">
+      <mat-button-toggle-group #group="matButtonToggleGroup">
+        <mat-button-toggle [disabled]="isLoading" *ngFor="let lang of optionLanguages;" value="{{lang.value}}">
+          <img class="iconLanguage" src="{{lang.imageSrc}}" alt="Icone da linguagem de programação {{lang.label}}">
+          <div>{{lang.label}}</div>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <button mat-raised-button color="primary" [disabled]="isLoading" (click)="getQuestion(group.value)">START
+      QUIZ!</button>
+  </mat-card-content>
+
+  <app-question [@fadeInOut] [question]="question" (nextQuestion)="nextQuestion($event)" *ngIf="question && !endGame"></app-question>
+
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

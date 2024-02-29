@@ -1,0 +1,37 @@
+
+.mat-button-toggle-group{
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-bottom: 20px;
+}
+
+.mat-button-toggle-group-appearance-standard .mat-button-toggle-appearance-standard + .mat-button-toggle-appearance-standard{
+    border-left: none;
+}
+
+.mat-button-toggle-group .mat-button-toggle:nth-child(-n+6) {
+    border-bottom: 1px solid var(--mat-divider-color); 
+}
+
+.mat-button-toggle-appearance-standard.mat-button-toggle-checked{
+    background-color: #3f51b5 !important;
+    color: white !important;
+}
+
+.textQuestion{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    padding: 10px;
+    text-align: start;
+    white-space: normal;
+    width: 460px;
+}
+
+.textOption{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    text-align: start;
+    white-space: normal;
+    width: 460px;
+    line-height: normal;
+}

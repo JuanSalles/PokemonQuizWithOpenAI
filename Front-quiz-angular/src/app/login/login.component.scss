@@ -1,0 +1,13 @@
+.box-login{
+    display: flex;
+    flex-direction: column;
+}
+
+mat-card-footer{
+    margin: 10px 0 0 0;
+}
+
+.error_message{
+    color: red;
+    margin-bottom: 10px;
+}

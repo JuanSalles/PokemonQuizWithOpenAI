@@ -1,14 +1,18 @@
-<span>
-  <img src="../../assets/loading.gif" alt="imagem de loading" *ngIf="isLoading">
-  <form (ngSubmit)="login()" *ngIf="!isLoading">
-    <label>
-      Nickname:
-      <input [(ngModel)]="nickname" name="nickname" required>
-    </label>
-    <button type="submit">Submit</button>
-  </form>
-  <mat-form-field appearance="fill" (ngSubmit)="login()">
-    <mat-label>Nickname</mat-label>
-    <input matInput [(ngModel)]="nickname">
-  </mat-form-field>
-</span>
+<mat-card class="login-card">
+  <mat-card-header>
+    <mat-card-subtitle *ngIf="errorMessage" class="error_message">{{ errorMessage }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="box-login">
+      <mat-form-field appearance="outline">
+        <mat-label>Nickname</mat-label>
+        <input matInput [disabled]="isLoading" [(ngModel)]="nickname" required>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="enter" (click)="login()">Enter</button>
+    </div>
+  </mat-card-content>
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

@@ -1,0 +1,27 @@
+
+.mat-button-toggle-group{
+    display:flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 300px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.mat-button-toggle-group-appearance-standard .mat-button-toggle-appearance-standard + .mat-button-toggle-appearance-standard{
+    border: none;
+}
+
+.mat-button-toggle-appearance-standard.mat-button-toggle-checked{
+    background-color: #3f51b5;
+    color: white;
+}
+
+.iconLanguage{
+    width: 60px;
+    padding: 5px 5px 0 5px;
+}
+
+mat-card-footer{
+    margin-top: 20px;
+}

@@ -1,19 +1,31 @@
 import { Component } from '@angular/core';
 import { QuizService } from '../quiz.service';
 import { Question } from '../Types/types';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
-  styleUrls: ['./quiz.component.scss']
+  styleUrls: ['./quiz.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      state('void', style({
+        opacity: 0
+      })),
+      transition('void <=> *', animate(1000)),
+    ]),
+    trigger('resize', [
+      state('small', style({width: '332px'})),
+      state('large', style({width: '500px'})),
+      transition('small <=> large', animate('0.5s ease-in-out')),
+    ]),
+  ],
 })
 export class QuizComponent {
 
+  boxSizing: string = 'small';
+
   question!: Question;
-
-  selectedOption: number = 1;
-
-  language:string = '';
 
   isLoading: boolean = false;
 
@@ -21,35 +33,36 @@ export class QuizComponent {
 
   endGame: boolean = false;
 
+  
+
+  optionLanguages = [
+    { value: "Java", label: "Java", imageSrc:"../../assets/iconLanguages/JAVA.png"},
+    { value: "Javascript", label: "JavaScript", imageSrc:"../../assets/iconLanguages/JAVASCRIPT.png" },
+    { value: "Python", label: "Python", imageSrc:"../../assets/iconLanguages/PYTHON.png" },
+    { value: "Csharp", label: "C#", imageSrc:"../../assets/iconLanguages/CSHARP.png" },
+    { value: "SQL", label: "SQL", imageSrc:"../../assets/iconLanguages/SQL.png"},
+    { value: "Ruby", label: "Ruby", imageSrc:"../../assets/iconLanguages/RUBY.png" },
+    { value: "Golang", label: "Golang", imageSrc:"../../assets/iconLanguages/GOLANG.png" },
+    
+  ]
   constructor(private quizService: QuizService) { 
 
   }
 
-  ngOnInit(): void {
-    // this.quizService.getQuestion().subscribe(question => {
-    //   this.question = question;
-    // });
-  }
-
-  getQuestion(): void {
+  getQuestion(language: string): void {
     this.isLoading = true;
-    this.quizService.getQuestion(this.language).subscribe(question => {
+    this.quizService.getQuestion(language).subscribe(question => {
+      this.boxSizing = 'large';
       this.question = question;
       this.isLoading = false;
-
     });
   }
 
-  confirm(): void {
-   
-    console.log("Sua resposta foi:", this.question.options[this.selectedOption - 1]);
-    this.quizService.postAnswer(this.selectedOption).subscribe(response => {
-      this.score = response.score;
-      if(response.isFinished){
-        this.endGame = true;
-        return;
-      }
-      this.getQuestion();
-    })
-  } 
+  nextQuestion(event: any): void {
+    this.score = event.score;
+    this.endGame = event.endGame;
+    if(!this.endGame){
+      this.getQuestion("");
+    }
+  }
 }

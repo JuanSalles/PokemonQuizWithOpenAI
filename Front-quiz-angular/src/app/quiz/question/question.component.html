@@ -1,0 +1,10 @@
+<mat-card-content>
+    <mat-button-toggle-group #group="matButtonToggleGroup">
+      <h3 class="textQuestion">Question: {{ question.question }}</h3>
+      <mat-divider></mat-divider>
+      <mat-button-toggle [disabled]="isLoading" *ngFor="let option of question.options; let i = index" value="{{i+1}}">
+        <p class="textOption">{{ option }}</p>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+    <button mat-raised-button color="primary" [disabled]="isLoading" (click)="confirm(group.value)">Confirmar</button>
+</mat-card-content>
